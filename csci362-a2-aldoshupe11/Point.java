@@ -1,9 +1,12 @@
 public class Point {
     
+    //value driven constructor
     public Point (int latV, int longV){
         this.latVal = latV;
         this.longVal = longV;
     }
+    
+    public Point(){} //empty constructor
     
     public int getLongVal(){ return longVal; }
     

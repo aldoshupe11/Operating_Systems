@@ -25,10 +25,9 @@ public class Master {
             Process process = new ProcessBuilder("java", "Worker").start();
             
             for(Point p : list) {
-                sendParameters(process, p);
+                sendParameters(process, list);
+                list.add(p);
             }
-            
-            list.add(p);
         }
     }
 
@@ -36,24 +35,25 @@ public class Master {
 
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream(), "UTF-8"));
         
-        for(Point p : ptList) {
-            pw.println(p.getLatVal() + "," + p.getLongVal()); //println to x,y pts
+        for(Point pt : ptList) {
+            pw.println(pt.getLatVal() + "," + pt.getLongVal()); //println to x,y pts
         }
         
         pw.flush();
     }
 
-    // private void idkYet(Process p) throws Exception {
+    private Point reduce(List<Point> pointList) {
         
-    //     p.waitFor();
-    //     BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), "UTF-8"));
-    //     String line = br.readLine();
+        int pointScore = Integer.MAX_VALUE;
         
-    //     while (line != null) {
-    //       System.out.println(line);
-    //       line = br.readLine();
-    //     }
-    // }
+        for(Point p : pointList) {
+            if((Math.abs(p.getLatVal() - refPoint.getLatVal()) + Math.abs(p.getLongVal() - refPoint.getLongVal()) < pointScore)) {
+                return p;
+            } else {
+                continue;
+            }
+        }
+    }
     
     private List<Point> getPoints(int count) {
         List<Point> pntList = new ArrayList();
